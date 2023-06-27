@@ -53,10 +53,10 @@ export const Sidebar = () => {
     ]
     return (
         <div className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start relative w-[270px] items-center">
-            <div className="bg-[#f2eae1] flex flex-col justify-start gap-8 relative w-full h-full items-start pl-6 py-4">
-                <div className="flex justify-center mb-6 relative items-end">
+            <div className="bg-[#f2eae1] flex flex-col justify-start gap-8 relative w-full h-full text-center items-center py-4">
+                <div className="flex justify-center mb-6 relative justify-center">
                     <span className="w-1 h-full bg-amber-300">&nbsp;</span>
-                    <div className="whitespace-nowrap text-xl font-['Montserrat'] font-bold text-black ml-3 relative">
+                    <div className="whitespace-nowrap text-[20px] font-['Montserrat'] font-bold text-black ml-2 relative">
                         MANAGE COURSES
                     </div>
                 </div>
@@ -64,17 +64,19 @@ export const Sidebar = () => {
                     src="https://file.rendit.io/n/QIZVhQinXB0vU9z2Trwt.svg"
                     className="min-h-0 min-w-0 self-center mb-12 relative"
                 />
-                {menuItems.map((menu,key) => (
-                    <Link href={menu.path} key={key} className={`${activePath === menu.path ? 'bg-[#feaf00]' : ''} cursor-pointer self-center flex flex-row justify-start gap-4 relative h-10 shrink-0 items-center pl-10 pr-20 py-3 rounded`}>
+                <div className="w-full gap-8 flex justify-center flex-col items-center">
+                    {menuItems.map((menu,key) => (
+                        <Link href={menu.path} key={key} className={`${activePath === menu.path ? 'bg-[#feaf00]' : ''} cursor-pointer flex justify-center gap-4 relative h-10 items-center w-[193px] py-3 rounded`}>
 
-                        <Image src={menu.svgSrc} height={menu.height} width={menu.height} className="min-h-0 min-w-0 relative w-5 h-5 shrink-0"></Image>
-                        <div className="text-sm font-['Montserrat'] font-medium text-black relative">
-                            {menu.header}
-                        </div>
-                    </Link>
-                ))}
+                            <Image src={menu.svgSrc} height={menu.height} width={menu.height} className="min-h-0 min-w-0 relative w-5 h-5 shrink-0"></Image>
+                            <div className="text-sm font-['Montserrat'] font-medium text-black relative">
+                                {menu.header}
+                            </div>
+                        </Link>
+                    ))}
 
 
+                </div>
                 <div className="self-center flex mt-auto mb-[33px] flex-row justify-start gap-6 relative w-24 items-center">
                     <button onClick={() => router.push('/auth/login')} className="cursor-pointer text-sm font-['Montserrat'] font-medium text-black mb-px relative">
                         Logout
