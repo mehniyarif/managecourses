@@ -1,10 +1,11 @@
 "use client"
 
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import Link from "next/link";
 
 export const Sidebar = () => {
     const activePath = usePathname();
+    const router = useRouter();
     const menuItems = [
         {
             path: "/",
