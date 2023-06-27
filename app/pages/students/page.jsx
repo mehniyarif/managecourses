@@ -1,13 +1,8 @@
-'use client'
-
-import { useRouter } from 'next/navigation'
-
-export default function CoursePage() {
-    const router = useRouter()
+export default function StudentsPage() {
 
     return (
-        <div className="w-screen h-screen flex items-center justify-center bg-gradient-to-r from-yellow-500 to-amber-300">
+        <main className="flex bg-white min-h-screen flex-col items-center justify-between p-24">
             Students
-        </div>
+        </main>
     );
 }
