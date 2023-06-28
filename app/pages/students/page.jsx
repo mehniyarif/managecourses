@@ -16,7 +16,7 @@ export default function StudentsPage() {
 
     const [totalValue, setTotal] = useState(0);
     const [users, setUsers] = useState([]);
-    const [searchValue, setSearchValue] = useState(searchParams.get("search")) || '';
+    const [searchValue, setSearchValue] = useState(searchParams.get("search") || '');
 
     const columns = [
         {
