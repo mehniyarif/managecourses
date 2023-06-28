@@ -13,10 +13,10 @@ export default function StudentsPage() {
 
     const limitValue = parseInt(searchParams.get("limit")) || 5;
     const skipValue = parseInt(searchParams.get("offset")) || 0;
+    const searchValue = searchParams.get("search") || '';
 
     const [totalValue, setTotal] = useState(0);
     const [users, setUsers] = useState([]);
-    const [searchValue, setSearchValue] = useState(searchParams.get("search") || '');
 
     const columns = [
         {
@@ -54,8 +54,8 @@ export default function StudentsPage() {
     ]
 
     useEffect(() => {
-        if(searchParams.get("search")){
-            searchUsers({q: searchParams.get("search")}).then((response)=>{
+        if(searchValue){
+            searchUsers({q: searchValue}).then((response)=>{
                 setUsers(response.data?.users || [])
             })
         }else{
@@ -70,11 +70,11 @@ export default function StudentsPage() {
 
 
     const handleSearchChange = (event) => {
-        if(!event.target.value){
-            let querySet = requestService.createQuerySet({})
-            router.push(activePath + querySet)
+        let options = {
+            search: event.target.value || ""
         }
-        setSearchValue(event.target.value || '')
+        let querySet = requestService.createQuerySet(options)
+        router.replace(activePath + querySet)
     };
 
 
@@ -88,11 +88,7 @@ export default function StudentsPage() {
     };
 
     const handleSearchSubmit = () => {
-        let options = {
-            search: searchValue,
-        }
-        let querySet = requestService.createQuerySet(options)
-        router.push(activePath + querySet)
+        window.location.reload()
     };
 
     const handleKeyDown = (event) => {
