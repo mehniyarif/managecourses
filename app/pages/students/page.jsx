@@ -6,6 +6,8 @@ import {useEffect, useState} from "react";
 
 export default function StudentsPage() {
 
+    const [limitValue, setLimit] = useState(5);
+    const [totalValue, setTotal] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [users, setUsers] = useState([]);
     const columns = [
@@ -44,8 +46,10 @@ export default function StudentsPage() {
     ]
 
     useEffect(() => {
-        fetchUsers().then((response)=>{
+        let options = {limit: limitValue}
+        fetchUsers(options).then((response)=>{
             setUsers(response.data.users)
+            setTotal(response.data.total)
         })
     }, []);
 
@@ -102,6 +106,30 @@ export default function StudentsPage() {
                 <div className="border-solid border-[#e5e5e5] mb-3 relative w-full h-px shrink-0 bordert borderb-0 borderx-0" />
 
                 <Table data={users} columns={columns}></Table>
+
+                <div className="flex justify-end w-full mr-8 gap-1 mt-[33px] relative items-center">
+                    <div className="text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#9fa2b4] mr-1 relative h-[75%]">
+                        Rows per page:
+                    </div>
+                    <div className="text-right text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#4a4f6c] relative w-[2.7%] h-[75%]">
+                        6
+                    </div>
+                    <img
+                        src="https://file.rendit.io/n/fqm36HTfWm0jXw9Hpt8a.svg"
+                        className="min-h-0 min-w-0 mr-12 relative w-3 shrink-0"
+                    />
+                    <div className="text-right text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#9fa2b4] mr-5 relative h-[75%]">
+                        1-5 of {totalValue}
+                    </div>
+                    <img
+                        src="https://file.rendit.io/n/JeemT0rIY33CVILgr1De.svg"
+                        className="min-h-0 min-w-0 mr-2 relative w-6 shrink-0"
+                    />
+                    <img
+                        src="https://file.rendit.io/n/jJkGrhSkyUiHphduJWhM.svg"
+                        className="min-h-0 min-w-0 relative w-6 shrink-0"
+                    />
+                </div>
 
             </div>
         </main>

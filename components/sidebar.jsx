@@ -52,7 +52,7 @@ export const Sidebar = () => {
         },
     ]
     return (
-        <div className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start relative w-[270px] items-center">
+        <div className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start relative min-w-[270px] items-center">
             <div className="bg-[#f2eae1] flex flex-col justify-start gap-8 relative w-full h-full text-center items-center py-4">
                 <div className="flex justify-center mb-6 relative justify-center">
                     <span className="w-1 h-full bg-amber-300">&nbsp;</span>
