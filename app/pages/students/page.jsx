@@ -1,5 +1,41 @@
-export default function StudentsPage() {
+import {fetchUsers} from "@/services/api";
+import {Table} from "@/components/table";
 
+export default async function StudentsPage() {
+
+    let users = []
+    const columns = [
+        {
+            name:"image",
+            type:"image",
+            title:""
+        },
+        {
+            name:"firstName",
+            type:"merge",
+            mergeColumnNames: ["firstName", "lastName"],
+            title:"Name"
+        },
+        {
+            name:"email",
+            title:"Email"
+        },
+        {
+            name:"phone",
+            title:"Phone"
+        },
+        {
+            name:"domain",
+            title:"Website"
+        },
+        {
+            name:"company.name",
+            title:"Company Name"
+        },
+    ]
+    await fetchUsers().then((response)=>{
+        users = response.data.users
+    })
     return (
         <main className="flex bg-[#F8F8F8] h-full flex-col items-center justify-between px-[30px] pt-[15px]">
             <div className="self-start flex flex-col justify-start gap-2 relative w-full items-center">
@@ -25,6 +61,9 @@ export default function StudentsPage() {
                     </button>
                 </div>
                 <div className="border-solid border-[#e5e5e5] mb-3 relative w-full h-px shrink-0 bordert borderb-0 borderx-0" />
+
+                <Table data={users} columns={columns}></Table>
+
                 <div className="self-start flex flex-row justify-start gap-20 relative items-center mb-3 ml-[139px]">
                     <div className="text-xs font-['Montserrat'] font-semibold text-[#acacac] mr-10 relative">
                         Name
