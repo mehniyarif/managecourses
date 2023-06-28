@@ -7,6 +7,7 @@ import {useEffect, useState} from "react";
 export default function StudentsPage() {
 
     const [limitValue, setLimit] = useState(5);
+    const [skipValue, setSkip] = useState(0);
     const [totalValue, setTotal] = useState(0);
     const [searchValue, setSearchValue] = useState('');
     const [users, setUsers] = useState([]);
@@ -46,18 +47,32 @@ export default function StudentsPage() {
     ]
 
     useEffect(() => {
-        let options = {limit: limitValue}
+        let options = {limit: limitValue, skip: skipValue}
         fetchUsers(options).then((response)=>{
             setUsers(response.data.users)
             setTotal(response.data.total)
+            setSkip(response.data.skip)
         })
     }, []);
+
 
     const handleSearchChange = (event) => {
         setSearchValue(event.target.value);
         if(!event.target.value){
-            fetchUsers().then((response)=>{
+            let options = {limit: limitValue, skip: skipValue}
+            fetchUsers(options).then((response)=>{
                 setUsers(response.data.users)
+            })
+        }
+    };
+
+
+    const handleLimitChange = (event) => {
+        if(event.target.value){
+            let options = {limit: parseInt(event.target.value), skip: skipValue}
+            fetchUsers(options).then((response)=>{
+                setUsers(response.data.users)
+                setLimit(response.data.limit);
             })
         }
     };
@@ -80,8 +95,30 @@ export default function StudentsPage() {
         }
     };
 
+    const previousPage = (event) => {
+        if (skipValue < 0) return
+        let newSkipValue = skipValue - limitValue
+        if(newSkipValue < 0){
+            newSkipValue = 0
+        }
+        let options = {limit: limitValue, skip: newSkipValue }
+        fetchUsers(options).then((response)=>{
+            setSkip(response.data.skip)
+            setUsers(response.data.users)
+        })
+    };
+
+    const nextPage = (event) => {
+        if(skipValue + limitValue >= totalValue) return
+        let options = {limit: limitValue, skip: skipValue + limitValue}
+        fetchUsers(options).then((response)=>{
+            setSkip(response.data.skip)
+            setUsers(response.data.users)
+        })
+    };
+
     return (
-        <main className="flex bg-[#F8F8F8] h-full flex-col items-center justify-between px-[30px] pt-[15px] mb-20">
+        <main className="flex bg-[#F8F8F8] h-full flex-col items-center justify-between px-[30px] pt-[15px] pb-20">
             <div className="self-start flex flex-col justify-start gap-2 relative w-full items-center">
                 <div className="flex justify-between mb-0 gap-6 relative w-full items-center">
                     <div className="whitespace-nowrap text-xl font-['Montserrat'] font-bold text-black mr-[499px] relative">
@@ -111,24 +148,27 @@ export default function StudentsPage() {
                     <div className="text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#9fa2b4] mr-1 relative h-[75%]">
                         Rows per page:
                     </div>
-                    <div className="text-right text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#4a4f6c] relative w-[2.7%] h-[75%]">
-                        6
-                    </div>
-                    <img
-                        src="https://file.rendit.io/n/fqm36HTfWm0jXw9Hpt8a.svg"
-                        className="min-h-0 min-w-0 mr-12 relative w-3 shrink-0"
-                    />
+                    <select id="students-limit-select-box" value={limitValue} onChange={handleLimitChange} className="cursor-pointer text-right mr-12 outline-none bg-transparent text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#4a4f6c] relative w-[2.7%] h-[75%]">
+                        {[5,6,7,8,9,10,15,20,25].map((perPage,key) => (
+                            <option key={key} value={perPage}>{perPage}</option>
+                        ))}
+                    </select>
                     <div className="text-right text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#9fa2b4] mr-5 relative h-[75%]">
-                        1-5 of {totalValue}
+                        {skipValue +1}-{skipValue + users.length} of {totalValue}
                     </div>
-                    <img
-                        src="https://file.rendit.io/n/JeemT0rIY33CVILgr1De.svg"
-                        className="min-h-0 min-w-0 mr-2 relative w-6 shrink-0"
-                    />
-                    <img
-                        src="https://file.rendit.io/n/jJkGrhSkyUiHphduJWhM.svg"
-                        className="min-h-0 min-w-0 relative w-6 shrink-0"
-                    />
+                    <button onClick={previousPage}>
+                        <img
+                            src="https://file.rendit.io/n/JeemT0rIY33CVILgr1De.svg"
+                            className="hover:scale-105 min-h-0 min-w-0 mr-2 relative w-6 shrink-0"
+                        />
+                    </button>
+                    <button onClick={nextPage}>
+                        <img
+                            src="https://file.rendit.io/n/jJkGrhSkyUiHphduJWhM.svg"
+                            className="hover:scale-105 min-h-0 min-w-0 relative w-6 shrink-0"
+                        />
+                    </button>
+
                 </div>
 
             </div>
