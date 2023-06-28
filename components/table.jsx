@@ -1,25 +1,28 @@
 "use client"
 
-import { usePathname, useRouter } from 'next/navigation'
-import Link from "next/link";
-import Image from "next/image"
 import useTableService from "@/services/tableService";
 
 export const Table = (props) => {
     const tableService = new useTableService()
     return (
         <table className={`flex flex-col gap-2.5 w-full `}>
-
-            <tr className={`grid grid-rows-1 w-full h-8 px-3 rounded-lg grid-cols-2 place-content-center place-items-center`} style={{"grid-template-columns": `repeat(${props?.columns.length}, minmax(0, 1fr)`} }>
-                {props?.columns.map((column,key) => (
-                    <th className="flex h-full w-full justify-center items-center " key={key}>
-                        <span className="truncate text-xs font-['Montserrat'] font-semibold text-[#acacac]">{column.title}</span>
-                    </th>
-                ))}
+            <thead className="w-full">
+            <tr className={`grid grid-rows-1 w-full h-8 px-3 rounded-lg grid-cols-2 place-content-center place-items-center`} style={{"gridTemplateColumns": `repeat(${props?.columns.length}, minmax(0, 1fr)`} }>
+                    {props?.columns.map((column,key) => (
+                        <th className="flex h-full w-full justify-center items-center " key={key}>
+                            <span className="truncate text-xs font-['Montserrat'] font-semibold text-[#acacac]">{column.title}</span>
+                        </th>
+                    ))}
             </tr>
+            </thead>
 
+            <tbody className={`flex flex-col gap-2.5 w-full `}>
+            {
+                props?.data.length === 0 &&
+                <tr className="flex w-full justify-center items-center">No Data Available</tr>
+            }
             {props?.data.map((row,rowKey) => (
-                <tr key={rowKey} className={`bg-white grid grid-rows-1 w-full h-20 px-3 rounded-lg grid-cols-2 place-content-center place-items-center`} style={{"grid-template-columns": `repeat(${props?.columns.length}, minmax(0, 1fr)`} }>
+                <tr key={rowKey} className={`bg-white grid grid-rows-1 w-full h-20 px-3 rounded-lg grid-cols-2 place-content-center place-items-center`} style={{"gridTemplateColumns": `repeat(${props?.columns.length}, minmax(0, 1fr)`} }>
                     {props?.columns.map((column,key) => (
                         <td className="flex h-full w-full justify-center items-center" key={key}>
                             {
@@ -59,6 +62,7 @@ export const Table = (props) => {
                     ))}
                 </tr>
             ))}
+            </tbody>
         </table>
     );
 }

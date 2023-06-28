@@ -1,6 +1,6 @@
 export default class requestService {
-  constructor(data) {
-    this.data = data;
+  constructor() {
+    this.data = {};
     this.filteredParams = {};
   }
 
@@ -11,7 +11,8 @@ export default class requestService {
       }
     }
   }
-  createQueryset() {
+  createQuerySet(data) {
+    this.data = data
     this.filterParams();
     return `?${new URLSearchParams(this.filteredParams).toString()}`;
   }

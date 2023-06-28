@@ -2,8 +2,8 @@ import axios from "@/utils/axios";
 import useRequestService from "@/services/requestService";
 
 export function fetchUsers(options = {}) {
-    let requestService = new useRequestService(options);
-    let queryset = requestService.createQueryset();
+    let requestService = new useRequestService();
+    let queryset = requestService.createQuerySet(options);
     return axios
         .get("/users" + queryset)
         .then((response) => {
@@ -16,8 +16,8 @@ export function fetchUsers(options = {}) {
 }
 
 export function searchUsers(options = {}) {
-        let requestService = new useRequestService(options);
-        let queryset = requestService.createQueryset();
+        let requestService = new useRequestService();
+        let queryset = requestService.createQuerySet(options);
         return axios
             .get("/users/search" + queryset)
             .then((response) => {

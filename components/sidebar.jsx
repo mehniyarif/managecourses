@@ -68,7 +68,7 @@ export const Sidebar = () => {
                     {menuItems.map((menu,key) => (
                         <Link href={menu.path} key={key} className={`${activePath === menu.path ? 'bg-[#feaf00]' : ''} cursor-pointer flex justify-center gap-4 relative h-10 items-center w-[193px] py-3 rounded`}>
 
-                            <Image src={menu.svgSrc} height={menu.height} width={menu.height} className="min-h-0 min-w-0 relative w-5 h-5 shrink-0"></Image>
+                            <Image src={menu.svgSrc} alt="no image alt" height={menu.height} width={menu.height} className="min-h-0 min-w-0 relative w-5 h-5 shrink-0"></Image>
                             <div className="text-sm font-['Montserrat'] font-medium text-black relative">
                                 {menu.header}
                             </div>
