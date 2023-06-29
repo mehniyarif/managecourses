@@ -52,7 +52,7 @@ export const Sidebar = () => {
         },
     ]
     return (
-        <div className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start relative min-w-[270px] items-center">
+        <aside className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start fixed z-10 min-w-[270px] h-full items-center">
             <div className="bg-[#f2eae1] flex flex-col justify-start gap-8 relative w-full h-full text-center items-center py-4">
                 <div className="flex justify-center mb-6 relative justify-center">
                     <span className="w-1 h-full bg-amber-300">&nbsp;</span>
@@ -60,10 +60,12 @@ export const Sidebar = () => {
                         MANAGE COURSES
                     </div>
                 </div>
-                <img
-                    src="https://file.rendit.io/n/QIZVhQinXB0vU9z2Trwt.svg"
-                    className="min-h-0 min-w-0 self-center mb-12 relative"
-                />
+                <div className="min-h-[150px] h-[150px] min-w-0 self-center mb-12 relative">
+                    <img
+                        src="https://file.rendit.io/n/QIZVhQinXB0vU9z2Trwt.svg"
+                        className="min-h-0 min-w-0"
+                    />
+                </div>
                 <div className="w-full gap-8 flex justify-center flex-col items-center">
                     {menuItems.map((menu,key) => (
                         <Link href={menu.path} key={key} className={`${activePath === menu.path ? 'bg-[#feaf00]' : ''} cursor-pointer flex justify-center gap-4 relative h-10 items-center w-[193px] py-3 rounded`}>
@@ -87,7 +89,7 @@ export const Sidebar = () => {
                     />
                 </div>
             </div>
-        </div>
+        </aside>
 
     );
 }

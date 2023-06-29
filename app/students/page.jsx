@@ -5,7 +5,8 @@ import {Table} from "@/components/table";
 import {useEffect, useState} from "react";
 import useRequestService from "@/services/requestService";
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
-import MainLayout from "@/services/layouts/main";
+import MainLayout from "@/layouts/main";
+import {StudentPopup} from "@/components/studentpopup";
 export default function StudentsPage() {
     let searchParams = useSearchParams();
     const activePath = usePathname();
@@ -18,6 +19,7 @@ export default function StudentsPage() {
     const [totalValue, setTotal] = useState(0);
     const [users, setUsers] = useState([]);
     const [searchValue, setSearchValue] = useState(searchParams.get("search") || '');
+    const [isOpenPopup, setOpenPopup] = useState(false)
 
     const columns = [
         {
@@ -166,9 +168,17 @@ export default function StudentsPage() {
         router.push(activePath + querySet)
     };
 
+    const closePopup = () => {
+        setOpenPopup(false);
+    };
+
+    const openPopup = () => {
+        setOpenPopup(true);
+    };
+
     return (
         <MainLayout>
-            <div className="flex bg-[#F8F8F8] h-full flex-col items-center justify-between px-[30px] pt-[15px] pb-20">
+            <div className="flex bg-[#F8F8F8] h-screen w-full flex-col items-center justify-between px-[30px] pt-[72px] pb-20">
                 <div className="self-start flex flex-col justify-start gap-2 relative w-full items-center">
                     <div className="flex justify-between mb-0 gap-6 relative w-full items-center">
                         <div className="whitespace-nowrap text-xl font-['Montserrat'] font-bold text-black mr-[499px] relative">
@@ -182,11 +192,11 @@ export default function StudentsPage() {
                                 className="min-h-0 min-w-0 absolute top-3.5 right-4 w-3 shrink-0 cursor-pointer"
                             />
                         </div>
-                        <button className="flex flex-col justify-start relative w-[200px] items-center">
+                        <button  onClick={openPopup} className="flex flex-col justify-start relative w-[200px] items-center">
                             <div className="bg-[#feaf00] flex flex-col justify-center relative w-full h-10 shrink-0 items-center rounded">
-                                <div className="whitespace-nowrap text-sm font-['Montserrat'] font-medium text-white relative">
+                                <span className="whitespace-nowrap text-sm font-['Montserrat'] font-medium text-white relative">
                                     ADD NEW STUDENT
-                                </div>
+                                </span>
                             </div>
                         </button>
                     </div>
@@ -227,6 +237,8 @@ export default function StudentsPage() {
 
 
                 </div>
+
+                {isOpenPopup && <StudentPopup onClose={closePopup}></StudentPopup>}
             </div>
         </MainLayout>
     );

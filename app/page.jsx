@@ -1,9 +1,9 @@
-import MainLayout from "@/services/layouts/main";
+import MainLayout from "@/layouts/main";
 
 export default function Home() {
   return (
       <MainLayout>
-            <div className="flex h-full flex-col items-center justify-between p-24">
+            <div className="flex bg-[#FDFDFD] h-full w-full flex-col items-center justify-between py-24 px-[30px]">
                 <div className="flex flex-row justify-between relative w-full items-center gap-[30px]">
                     <div className="bg-[#f0f9ff] flex flex-row justify-between relative w-1/4 h-40 items-start p-5 rounded-lg">
                         <div className="flex flex-col justify-start gap-4 relative w-12 shrink-0 items-center">

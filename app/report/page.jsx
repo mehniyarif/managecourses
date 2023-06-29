@@ -1,4 +1,4 @@
-import MainLayout from "@/services/layouts/main";
+import MainLayout from "@/layouts/main";
 
 export default function ReportPage() {
     return (
