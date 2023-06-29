@@ -16,35 +16,35 @@ export const Sidebar = () => {
             svgSrc: "https://file.rendit.io/n/oaG27LI0LSiIE8vgCC4n.svg"
         },
         {
-            path: "/pages/course",
+            path: "/course",
             header: "Course",
             width: 12,
             height: 15,
             svgSrc: "https://file.rendit.io/n/cZ8eMJWiJVR3FmPTN4RH.svg"
         },
         {
-            path: "/pages/students",
+            path: "/students",
             header: "Students",
             width: 20,
             height: 16,
             svgSrc: "https://file.rendit.io/n/B256z64mgLaJq410pDzJ.svg"
         },
         {
-            path: "/pages/payment",
+            path: "/payment",
             header: "Payment",
             width: 15,
             height: 17,
             svgSrc: "https://file.rendit.io/n/jibcjULLkkP64PwkLXF7.svg"
         },
         {
-            path: "/pages/report",
+            path: "/report",
             header: "Report",
             width: 13,
             height: 17,
             svgSrc: "https://file.rendit.io/n/IFajcMR4OQTuKcQvJkFL.svg"
         },
         {
-            path: "/pages/settings",
+            path: "/settings",
             header: "Settings",
             width: 15,
             height: 17,
@@ -78,7 +78,7 @@ export const Sidebar = () => {
 
                 </div>
                 <div className="self-center flex mt-auto mb-[33px] flex-row justify-start gap-6 relative w-24 items-center">
-                    <button onClick={() => router.push('/auth/login')} className="cursor-pointer text-sm font-['Montserrat'] font-medium text-black mb-px relative">
+                    <button onClick={() => router.push('/login')} className="cursor-pointer text-sm font-['Montserrat'] font-medium text-black mb-px relative">
                         Logout
                     </button>
                     <img

@@ -8,7 +8,7 @@ let axiosInstance = axios.create({
 });
 
 export const setAuthHeader = (token) => {
-  axiosInstance.post("/auth/login", JSON.stringify({
+  axiosInstance.post("/login", JSON.stringify({
     username: 'kminchelle',
     password: '0lelplR',
   })).then((response)=>{
