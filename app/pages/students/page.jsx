@@ -13,10 +13,10 @@ export default function StudentsPage() {
 
     const limitValue = parseInt(searchParams.get("limit")) || 5;
     const skipValue = parseInt(searchParams.get("offset")) || 0;
-    const searchValue = searchParams.get("search") || '';
 
     const [totalValue, setTotal] = useState(0);
     const [users, setUsers] = useState([]);
+    const [searchValue, setSearchValue] = useState(searchParams.get("search") || '');
 
     const columns = [
         {
@@ -54,27 +54,44 @@ export default function StudentsPage() {
     ]
 
     useEffect(() => {
-        if(searchValue){
+        let timeoutId;
+        const handleSearch = () => {
             searchUsers({q: searchValue}).then((response)=>{
                 setUsers(response.data?.users || [])
             })
-        }else{
-            let options = {limit: limitValue, skip: skipValue}
+            let options = {
+                search: searchValue
+            }
+            let querySet = requestService.createQuerySet(options)
+            router.push(activePath + querySet)
+        };
+
+
+        const delayedSearch = () => {
+            clearTimeout(timeoutId);
+            timeoutId = setTimeout(handleSearch, 500);
+        };
+
+
+        if(!searchValue){
+            let options = {limit: limitValue, offset: skipValue}
             fetchUsers(options).then((response)=>{
                 setUsers(response.data.users)
                 setTotal(response.data.total)
             })
+        }else{
+            delayedSearch();
         }
 
-    });
+        return () => {
+            clearTimeout(timeoutId);
+        };
+
+    }, [searchValue]);
 
 
     const handleSearchChange = (event) => {
-        let options = {
-            search: event.target.value || ""
-        }
-        let querySet = requestService.createQuerySet(options)
-        router.replace(activePath + querySet)
+        setSearchValue(event.target.value)
     };
 
 
@@ -83,6 +100,12 @@ export default function StudentsPage() {
             limit: event.target.value || 5,
             offset: skipValue || 0,
         }
+
+        fetchUsers(options).then((response)=>{
+            setUsers(response.data.users)
+            setTotal(response.data.total)
+        })
+
         let querySet = requestService.createQuerySet(options)
         router.push(activePath + querySet)
     };
@@ -103,7 +126,7 @@ export default function StudentsPage() {
     };
 
     const previousPage = () => {
-        if (skipValue < 0) return
+        if (skipValue <= 0) return
         let newSkipValue = skipValue - limitValue
         if(newSkipValue < 0){
             newSkipValue = 0
@@ -113,6 +136,13 @@ export default function StudentsPage() {
             offset: newSkipValue || 0,
             limit: limitValue || 5,
         }
+
+
+        fetchUsers(options).then((response)=>{
+            setUsers(response.data.users)
+            setTotal(response.data.total)
+        })
+
         let querySet = requestService.createQuerySet(options)
         router.push(activePath + querySet)
     };
@@ -125,6 +155,12 @@ export default function StudentsPage() {
             offset: skipValue + limitValue,
             limit: limitValue || 5,
         }
+
+        fetchUsers(options).then((response)=>{
+            setUsers(response.data.users)
+            setTotal(response.data.total)
+        })
+
         let querySet = requestService.createQuerySet(options)
         router.push(activePath + querySet)
     };

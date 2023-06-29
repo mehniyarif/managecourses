@@ -3,7 +3,11 @@ import useRequestService from "@/services/requestService";
 
 export function fetchUsers(options = {}) {
     let requestService = new useRequestService();
-    let queryset = requestService.createQuerySet(options);
+    let newOptions = {
+        skip: options.offset,
+        limit: options.limit,
+    }
+    let queryset = requestService.createQuerySet(newOptions);
     return axios
         .get("/users" + queryset)
         .then((response) => {
