@@ -19,7 +19,7 @@ export const Table = (props) => {
             <tbody className={`flex flex-col gap-2.5 w-full `}>
             {
                 props?.data.length === 0 &&
-                <tr className="flex w-full justify-center items-center text-sm font-['Montserrat'] text-black mt-2.5 delay-700">No Data Available</tr>
+                <tr className="flex w-full justify-center items-center text-sm font-['Montserrat'] text-black mt-2.5 delay-700"><td>No Data Available</td></tr>
             }
             {props?.data.map((row,rowKey) => (
                 <tr key={rowKey} className={`bg-white grid grid-rows-1 w-full h-20 px-3 rounded-lg grid-cols-2 place-content-center place-items-center`} style={{"gridTemplateColumns": `repeat(${props?.columns.length}, minmax(0, 1fr)`} }>
