@@ -7,6 +7,8 @@ import useRequestService from "@/services/requestService";
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
 import MainLayout from "@/layouts/main";
 import {StudentPopup} from "@/components/studentpopup";
+import swal from 'sweetalert';
+
 export default function StudentsPage() {
     let searchParams = useSearchParams();
     const activePath = usePathname();
@@ -20,6 +22,7 @@ export default function StudentsPage() {
     const [users, setUsers] = useState([]);
     const [searchValue, setSearchValue] = useState(searchParams.get("search") || '');
     const [isOpenPopup, setOpenPopup] = useState(false)
+
 
     const columns = [
         {
@@ -176,6 +179,36 @@ export default function StudentsPage() {
         setOpenPopup(true);
     };
 
+    const showDeleteConfirmation = (fullName) => {
+        swal({
+            title: `Are you sure you want to delete the student named \"${fullName}\"?`,
+            text: "This action cannot be undone!",
+            icon: "warning",
+            buttons: ["Cancel", "Delete"],
+            dangerMode: true,
+        })
+            .then((confirmed) => {
+                if (confirmed) {
+                    // Perform delete operation
+                    console.log("Delete confirmed.");
+                } else {
+                    // Handle cancel action
+                    console.log("Delete canceled.");
+                }
+            });
+    };
+
+
+    const openStudentDetail = (rowData) => {
+        router.push(`/students/${rowData.id}`)
+    };
+
+    const openStudentDelete = (rowData) => {
+        showDeleteConfirmation(`${rowData.firstName} ${rowData.lastName}`)
+    };
+
+
+
     return (
         <MainLayout>
             <div className="flex bg-[#F8F8F8] h-screen w-full flex-col items-center justify-between px-[30px] pt-[72px] pb-20">
@@ -202,7 +235,7 @@ export default function StudentsPage() {
                     </div>
                     <div className="border-solid border-[#e5e5e5] mb-3 relative w-full h-px shrink-0 bordert borderb-0 borderx-0" />
 
-                    <Table data={users} columns={columns}></Table>
+                    <Table data={users} columns={columns} onDetailAction={openStudentDetail} onDeleteAction={openStudentDelete}></Table>
 
                     {
                         !searchValue && users.length > 0 &&

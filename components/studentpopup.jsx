@@ -1,7 +1,7 @@
 "use client"
 
 
-import {useEffect, useState} from "react";
+import {useState} from "react";
 
 export const StudentPopup = ({onClose}) => {
     const [isFormValid, setIsFormValid] = useState(false)
@@ -67,7 +67,7 @@ export const StudentPopup = ({onClose}) => {
                     <div className="sm:flex sm:items-start">
                         <div
                             className="mx-auto flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-green-300 sm:mx-0 sm:h-10 sm:w-10">
-                            <svg className="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true"
+                            <svg className="w-6 h-6 text-white" aria-hidden="true"
                                  xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path
                                     d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-2V5a1 1 0 0 0-2 0v2h-2a1 1 0 1 0 0 2h2v2a1 1 0 0 0 2 0V9h2a1 1 0 1 0 0-2Z"/>
@@ -113,7 +113,7 @@ export const StudentPopup = ({onClose}) => {
                         </div>
                         <div>
                             <label htmlFor="company"
-                                   className="block mb-2 text-sm font-medium text-gray-900 ">Company <span className="text-xs text-gray-400">(optional)</span></label>
+                                   className="flex items-center gap-1 mb-2 text-sm font-medium text-gray-900 ">Company <span className="text-xs text-gray-600">(optional)</span></label>
                             <input type="text" id="company"
                                    name="companyName"
                                    value={formData.companyName}
@@ -144,8 +144,8 @@ export const StudentPopup = ({onClose}) => {
 
                     <div className="mb-6">
                         <label htmlFor="website"
-                               className="flex mb-2 text-sm font-medium text-gray-900 ">Website
-                            URL <span className="text-xs text-gray-400">(optional)</span> <span className="ml-auto text-xs text-gray-400">e.g. managecourses.com</span></label>
+                               className="flex  items-center gap-1 mb-2 text-sm font-medium text-gray-900 ">Website
+                            URL <span className="text-xs text-gray-600">(optional)</span> <span className="ml-auto text-xs text-gray-400">e.g. managecourses.com</span></label>
                         <input type="text" id="website"
                                name="website"
                                value={formData.website}

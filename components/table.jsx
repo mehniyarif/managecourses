@@ -2,7 +2,7 @@
 
 import useTableService from "@/services/tableService";
 
-export const Table = (props) => {
+export const Table = ({onDetailAction, onDeleteAction, ...props}) => {
     const tableService = new useTableService()
     return (
         <table className={`flex flex-col gap-2.5 w-full `}>
@@ -40,13 +40,13 @@ export const Table = (props) => {
                                     column.type === "actions" ?
 
                                         <span className="flex justify-center items-center gap-6">
-                                            <button>
+                                            <button onClick={() => onDetailAction(row) }>
                                                 <img
                                                     src="https://file.rendit.io/n/wKFYQEwKMy5UOkupmgnF.svg"
                                                     className="hover:scale-105 min-h-0 min-w-0 mr-px relative w-5 shrink-0"
                                                 />
                                             </button>
-                                             <button>
+                                             <button onClick={() => onDeleteAction(row) }>
                                               <img
                                                   src="https://file.rendit.io/n/dCXBHDB13CroFdgy2PGy.svg"
                                                   className="hover:scale-105 min-h-0 min-w-0 relative w-4 shrink-0"
