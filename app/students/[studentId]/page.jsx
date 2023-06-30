@@ -138,7 +138,7 @@ export default function StudentsDetailPage() {
                                                    minLength={10}
                                                    maxLength={10}
                                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                                   placeholder="553 126 77 88" required/>
+                                                   placeholder="550 111 22 33" required/>
                                         </div>
                                     </div>
                                 </div>
