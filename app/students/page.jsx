@@ -211,7 +211,7 @@ export default function StudentsPage() {
 
     return (
         <MainLayout>
-            <div className="flex bg-[#F8F8F8] h-screen w-full flex-col items-center justify-between px-[30px] pt-[72px] pb-20">
+            <div className="flex bg-[#F8F8F8] h-full min-h-screen w-full flex-col items-center justify-between px-[30px] pt-[72px] pb-20">
                 <div className="self-start flex flex-col justify-start gap-2 relative w-full items-center">
                     <div className="flex justify-between mb-0 gap-6 relative w-full items-center">
                         <div className="whitespace-nowrap text-xl font-['Montserrat'] font-bold text-black mr-[499px] relative">
@@ -240,11 +240,11 @@ export default function StudentsPage() {
                     {
                         !searchValue && users.length > 0 &&
 
-                        <div className="flex justify-end w-full mr-8 gap-1 mt-[33px] relative items-center">
+                        <div className="flex justify-end w-full mr-8 gap-1 mt-[33px] relative items-center mb-20">
                             <div className="text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#9fa2b4] mr-1 relative h-[75%]">
                                 Rows per page:
                             </div>
-                            <select id="students-limit-select-box" value={limitValue} onChange={handleLimitChange} className="cursor-pointer text-right mr-12 outline-none bg-transparent text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#4a4f6c] relative w-[2.7%] h-[75%]">
+                            <select id="students-limit-select-box" value={limitValue} onChange={handleLimitChange} className="cursor-pointer text-right mr-12 outline-none bg-transparent text-sm font-['Mulish'] tracking-[0.30000001192092896] leading-[20px] text-[#4a4f6c] relative w-12 h-[75%]">
                                 {[5,6,7,8,9,10,15,20,25].map((perPage,key) => (
                                     <option key={key} value={perPage}>{perPage}</option>
                                 ))}
