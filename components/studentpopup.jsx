@@ -113,7 +113,7 @@ export const StudentPopup = ({onClose}) => {
                         </div>
                         <div>
                             <label htmlFor="company"
-                                   className="block mb-2 text-sm font-medium text-gray-900 ">Company</label>
+                                   className="block mb-2 text-sm font-medium text-gray-900 ">Company <span className="text-xs text-gray-400">(optional)</span></label>
                             <input type="text" id="company"
                                    name="companyName"
                                    value={formData.companyName}
@@ -121,37 +121,43 @@ export const StudentPopup = ({onClose}) => {
                                    onChange={handleChange}
                                    onBlur={handleBlur}
                                    className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                   placeholder="ManageCourses" required/>
+                                   placeholder="ManageCourses" />
                         </div>
                         <div>
                             <label htmlFor="phone"
-                                   className="block mb-2 text-sm font-medium text-gray-900 ">Phone
-                                number</label>
-                            <input type="tel" id="phone"
-                                   name="phone"
-                                   value={formData.phone}
-                                   onChange={handleChange}
-                                   onBlur={handleBlur}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                   placeholder="123-45-678" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}" required/>
-                        </div>
-                        <div>
-                            <label htmlFor="website"
-                                   className="block mb-2 text-sm font-medium text-gray-900 ">Website
-                                URL</label>
-                            <input type="text" id="website"
-                                   name="website"
-                                   value={formData.website}
-                                   onChange={handleChange}
-                                   pattern="^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$"
-                                   onBlur={handleBlur}
-                                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                   placeholder="managecourses.com" required/>
+                                   className="flex justify-between mb-2 text-sm font-medium text-gray-900 ">Phone
+                                number<span className="text-xs text-gray-400">e.g. 550 111 22 33</span></label>
+                            <div className="flex w-full gap-1">
+                                <input type="text" value="+90" disabled className="bg-gray-50 border w-12 border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "/>
+                                <input type="tel" id="phone"
+                                       name="phone"
+                                       value={formData.phone}
+                                       onChange={handleChange}
+                                       onBlur={handleBlur}
+                                       minLength={10}
+                                       maxLength={10}
+                                       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-r-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                                       placeholder="553 126 77 88" required/>
+                            </div>
                         </div>
                     </div>
+
                     <div className="mb-6">
-                        <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 ">Email
-                            address</label>
+                        <label htmlFor="website"
+                               className="flex mb-2 text-sm font-medium text-gray-900 ">Website
+                            URL <span className="text-xs text-gray-400">(optional)</span> <span className="ml-auto text-xs text-gray-400">e.g. managecourses.com</span></label>
+                        <input type="text" id="website"
+                               name="website"
+                               value={formData.website}
+                               onChange={handleChange}
+                               pattern="^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$"
+                               onBlur={handleBlur}
+                               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
+                               placeholder="managecourses.com" />
+                    </div>
+                    <div className="mb-6">
+                        <label htmlFor="email" className="flex justify-between mb-2 text-sm font-medium text-gray-900 ">Email
+                            address<span className="text-xs text-gray-400">e.g. help@managecourses.com</span></label>
                         <input type="email" id="email"
                                value={formData.email}
                                name="email"
