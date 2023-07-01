@@ -32,3 +32,16 @@ export function searchUsers(options = {}) {
                 throw error;
             })
 }
+
+export function getUser(id = null) {
+    if(!id) return
+    return axios
+        .get(`/users/${id}`)
+        .then((response) => {
+            return response
+        })
+        .catch((error) => {
+            console.log(error)
+            throw error;
+        })
+}

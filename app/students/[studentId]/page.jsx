@@ -1,11 +1,13 @@
 "use client"
 
-import {usePathname, useSearchParams} from 'next/navigation'
+import {useParams, useRouter} from 'next/navigation'
 import MainLayout from "@/layouts/main";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {getUser} from "@/services/api";
 export default function StudentsDetailPage() {
-    let searchParams = useSearchParams();
-    const activePath = usePathname();
+
+    const router = useRouter();
+
     const [validationError, setValidationError] = useState("")
     const [isFormValid, setIsFormValid] = useState(false)
     const [formData, setFormData] = useState({
@@ -15,8 +17,7 @@ export default function StudentsDetailPage() {
         phone: '',
         website: '',
         companyName: '',
-        password: '',
-        passwordConfirm: ''
+        phoneCode: ''
     });
 
     const handleChange = (e) => {
@@ -27,7 +28,7 @@ export default function StudentsDetailPage() {
         }));
 
         handleValidationError(e)
-        setIsFormValid([...document.getElementById("edit-new-student-form").querySelectorAll('input')].every((el) => el.checkValidity()))
+        setIsFormValid([...document.getElementById("edit-student-form").querySelectorAll('input')].every((el) => el.checkValidity()))
     };
 
     const handleValidationError = (e, isReport=false) => {
@@ -51,12 +52,29 @@ export default function StudentsDetailPage() {
             }
         })
 
-        setIsFormValid([...document.getElementById("edit-new-student-form").querySelectorAll('input')].every((el) => el.checkValidity()))
+        setIsFormValid([...document.getElementById("edit-student-form").querySelectorAll('input')].every((el) => el.checkValidity()))
     };
 
     const handleBlur = (e) => {
         handleValidationError(e, true)
     };
+
+    let {studentId} = useParams();
+
+    useEffect(()=>{
+        getUser(studentId).then((response)=>{
+            let data = {
+                email: response.data.email,
+                firstname: response.data.firstName,
+                lastname: response.data.lastName,
+                phone: response.data.phone.toString().split(" ").slice(1, response.data.phone.toString().split(" ").length).join(""),
+                companyName: response.data.company?.name,
+                website: response.data.domain,
+                phoneCode: response.data.phone.toString().split(" ")[0]
+            }
+            setFormData(data)
+        })
+    }, [studentId])
 
 
     return (
@@ -84,7 +102,7 @@ export default function StudentsDetailPage() {
                                     </div>
                                 </div>
                             </div>
-                            <form className="p-12" id="edit-new-student-form">
+                            <form className="p-12" id="edit-student-form">
                                 <div className="grid gap-6 mb-6 md:grid-cols-2">
                                     <div>
                                         <label htmlFor="first_name"
@@ -129,7 +147,7 @@ export default function StudentsDetailPage() {
                                                className="flex justify-between mb-2 text-sm font-medium text-gray-900 ">Phone
                                             number<span className="text-xs text-gray-400">e.g. 550 111 22 33</span></label>
                                         <div className="flex w-full gap-1">
-                                            <input type="text" value="+90" disabled className="bg-gray-50 border w-12 border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "/>
+                                            <input type="text" value={formData.phoneCode || '+90'} disabled className="bg-gray-50 border w-12 border-gray-300 text-gray-900 text-sm rounded-l-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5 "/>
                                             <input type="tel" id="phone"
                                                    name="phone"
                                                    value={formData.phone}
@@ -151,7 +169,7 @@ export default function StudentsDetailPage() {
                                            name="website"
                                            value={formData.website}
                                            onChange={handleChange}
-                                           pattern="^((https?|ftp|smtp):\/\/)?(www.)?[a-z0-9]+\.[a-z]+(\/[a-zA-Z0-9#]+\/?)*$"
+                                           pattern=".*\..*"
                                            onBlur={handleBlur}
                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="managecourses.com" />
@@ -167,31 +185,6 @@ export default function StudentsDetailPage() {
                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
                                            placeholder="john.doe@company.com" required/>
                                 </div>
-                                <div className="mb-6">
-                                    <label htmlFor="password"
-                                           className="block mb-2 text-sm font-medium text-gray-900 ">Password</label>
-                                    <input type="password" id="password"
-                                           name="password"
-                                           value={formData.password}
-                                           minLength={8}
-                                           onChange={handleChange}
-                                           onBlur={handleBlur}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                           placeholder="•••••••••" required/>
-                                </div>
-                                <div className="mb-6">
-                                    <label htmlFor="confirm_password"
-                                           className="block mb-2 text-sm font-medium text-gray-900 ">Confirm
-                                        password</label>
-                                    <input type="password" id="confirm_password"
-                                           name="passwordConfirm"
-                                           minLength={8}
-                                           value={formData.passwordConfirm}
-                                           onChange={handleChange}
-                                           onBlur={handleBlur}
-                                           className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 "
-                                           placeholder="•••••••••" required/>
-                                </div>
 
                                 {validationError &&
                                     <div
@@ -205,6 +198,9 @@ export default function StudentsDetailPage() {
                                 <button type="button"
                                         disabled={!isFormValid}
                                         className="inline-flex w-full justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Save
+                                </button>
+                                <button type="button" onClick={() => router.back()}
+                                        className="mt-3 inline-flex w-full  justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">Cancel
                                 </button>
                             </div>
                         </div>
