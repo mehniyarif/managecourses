@@ -1,6 +1,6 @@
 "use client"
 
-import {fetchUsers, searchUsers} from "@/services/api";
+import {deleteUser, fetchUsers, searchUsers} from "@/services/api";
 import {Table} from "@/components/table";
 import {useEffect, useState} from "react";
 import useRequestService from "@/services/requestService";
@@ -75,7 +75,7 @@ export default function StudentsPage() {
 
         const delayedSearch = () => {
             clearTimeout(timeoutId);
-            timeoutId = setTimeout(handleSearch, 500);
+            timeoutId = setTimeout(handleSearch, 250);
         };
 
 
@@ -179,9 +179,9 @@ export default function StudentsPage() {
         setOpenPopup(true);
     };
 
-    const showDeleteConfirmation = (fullName) => {
+    const showDeleteConfirmation = (rowData) => {
         swal({
-            title: `Are you sure you want to delete the student named \"${fullName}\"?`,
+            title: `Are you sure you want to delete the student named \"${rowData.firstName} ${rowData.lastName}\"?`,
             text: "This action cannot be undone!",
             icon: "warning",
             buttons: ["Cancel", "Delete"],
@@ -189,8 +189,16 @@ export default function StudentsPage() {
         })
             .then((confirmed) => {
                 if (confirmed) {
-                    // Perform delete operation
-                    console.log("Delete confirmed.");
+                    deleteUser(rowData.id).then(()=>{
+                        swal({
+                            title: `\"${rowData.firstName} ${rowData.lastName}\" student account deleted successfully`,
+                            text: "Successfully",
+                            icon: "info"
+                        }).then(()=>{
+                            router.push("/students")
+                            window.location.reload()
+                        })
+                    })
                 } else {
                     // Handle cancel action
                     console.log("Delete canceled.");
@@ -204,7 +212,7 @@ export default function StudentsPage() {
     };
 
     const openStudentDelete = (rowData) => {
-        showDeleteConfirmation(`${rowData.firstName} ${rowData.lastName}`)
+        showDeleteConfirmation(rowData)
     };
 
 

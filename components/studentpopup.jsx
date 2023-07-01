@@ -2,12 +2,16 @@
 
 
 import {useState} from "react";
+import {createUser} from "@/services/api";
+import {useRouter} from "next/navigation";
+import swal from 'sweetalert';
 
 export const StudentPopup = ({onClose}) => {
+    const router = useRouter();
     const [isFormValid, setIsFormValid] = useState(false)
     const [validationError, setValidationError] = useState("")
     const [formData, setFormData] = useState({
-        firstname: 'test',
+        firstname: '',
         lastname: '',
         email: '',
         phone: '',
@@ -54,6 +58,47 @@ export const StudentPopup = ({onClose}) => {
 
     const handleBlur = (e) => {
         handleValidationError(e, true)
+    };
+
+    const onSubmit = (e) => {
+        let payload = {
+            firstName: formData.firstname,
+            lastName: formData.lastname,
+            email: formData.email,
+            phone: `+90 ${formData.phone}`,
+            domain: formData.website,
+            password: formData.password,
+            company: {
+                name: formData.companyName
+            },
+        }
+        createUser(payload).then(response => {
+            swal({
+                title: `\"${formData.firstname} ${formData.lastname}\" student account created successfully`,
+                text: "Successfully",
+                icon: "success"
+            })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        onClose()
+                        router.push(`/students`)
+                        window.location.reload()
+                    }
+                });
+
+        }).catch((error) => {
+            swal({
+                title: `Failed to create student account \"${formData.firstname} ${formData.lastname}\"`,
+                text: "Operation failed",
+                icon: "warning"
+            })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        // Perform create operation
+                        console.log("create confirmed.");
+                    }
+                });
+        })
     };
 
     return (
@@ -203,6 +248,7 @@ export const StudentPopup = ({onClose}) => {
                 <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                     <button type="button"
                             disabled={!isFormValid}
+                            onClick={onSubmit}
                             className="inline-flex w-full justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Apply
                     </button>
                     <button type="button" onClick={onClose}

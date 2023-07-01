@@ -3,7 +3,9 @@
 import {useParams, useRouter} from 'next/navigation'
 import MainLayout from "@/layouts/main";
 import {useEffect, useState} from "react";
-import {getUser} from "@/services/api";
+import {getUser, updateUser} from "@/services/api";
+import swal from 'sweetalert';
+
 export default function StudentsDetailPage() {
 
     const router = useRouter();
@@ -11,6 +13,7 @@ export default function StudentsDetailPage() {
     const [validationError, setValidationError] = useState("")
     const [isFormValid, setIsFormValid] = useState(false)
     const [formData, setFormData] = useState({
+        id: null,
         firstname: 'test',
         lastname: '',
         email: '',
@@ -64,6 +67,7 @@ export default function StudentsDetailPage() {
     useEffect(()=>{
         getUser(studentId).then((response)=>{
             let data = {
+                id: studentId,
                 email: response.data.email,
                 firstname: response.data.firstName,
                 lastname: response.data.lastName,
@@ -75,6 +79,45 @@ export default function StudentsDetailPage() {
             setFormData(data)
         })
     }, [studentId])
+
+    const onSubmit = (e) => {
+        let payload = {
+            id: formData.id,
+            firstName: formData.firstname,
+            lastName: formData.lastname,
+            email: formData.email,
+            phone: `+90 ${formData.phone}`,
+            domain: formData.website,
+            company: {
+                name: formData.companyName
+            },
+        }
+        updateUser(payload).then(response => {
+            swal({
+                title: `\"${formData.firstname} ${formData.lastname}\" student account updated successfully`,
+                text: "Successfully",
+                icon: "success"
+            })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        router.push(`/students?search=${formData.firstname}`)
+                    }
+                });
+
+        }).catch((error) => {
+            swal({
+                title: `Failed to update student account \"${formData.firstname} ${formData.lastname}\"`,
+                text: "Operation failed",
+                icon: "warning"
+            })
+                .then((confirmed) => {
+                    if (confirmed) {
+                        // Perform update operation
+                        console.log("update confirmed.");
+                    }
+                });
+        })
+    };
 
 
     return (
@@ -197,6 +240,7 @@ export default function StudentsDetailPage() {
                             <div className="px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                                 <button type="button"
                                         disabled={!isFormValid}
+                                        onClick={onSubmit}
                                         className="inline-flex w-full justify-center cursor-pointer disabled:cursor-not-allowed disabled:opacity-50 rounded-md bg-green-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-green-500 sm:ml-3 sm:w-auto">Save
                                 </button>
                                 <button type="button" onClick={() => router.back()}
