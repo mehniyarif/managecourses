@@ -54,7 +54,7 @@ export const Sidebar = () => {
     return (
         <aside className="overflow-hidden bg-[#fcfcfc] flex flex-row justify-start fixed z-10 min-w-[270px] h-full items-center">
             <div className="bg-[#f2eae1] flex flex-col justify-start gap-8 relative w-full h-full text-center items-center py-4">
-                <div className="flex justify-center mb-6 relative justify-center">
+                <div className="flex justify-center mb-6 relative justify-center cursor-pointer" onClick={() => router.push("/")} >
                     <span className="w-1 h-full bg-amber-300">&nbsp;</span>
                     <div className="whitespace-nowrap text-[20px] font-['Montserrat'] font-bold text-black ml-2 relative">
                         MANAGE COURSES
